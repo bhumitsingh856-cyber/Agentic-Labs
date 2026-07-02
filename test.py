@@ -1,9 +1,9 @@
 from openai import OpenAI
-
+import os
 # The correct cloud gateway for Nvidia Hosted NIMs
 client = OpenAI(
     base_url="https://integrate.api.nvidia.com/v1", 
-    api_key="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"
+    api_key=os.getenv("NVIDIA_API_KEY")
 )
 
 # Call the image generator
