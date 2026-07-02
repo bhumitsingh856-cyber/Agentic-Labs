@@ -8,14 +8,15 @@ load_dotenv()
 def image_gen(prompt:str):
     try:
         nvidia_url = (
-            "https://ai.api.nvidia.com/v1/genai/black-forest-labs/flux.1-schnell"
+            "https://ai.api.nvidia.com/v1/images/generations"
         )
-        nvidia_payload = {"prompt": prompt}
+        nvidia_payload = {"prompt": prompt,"model":"qwen-image"}
         nvidia_header = {
             "Authorization": f"Bearer {os.getenv('NVIDIA_API_KEY')}",
             "content-type": "application/json",
         }
         res = requests.post(nvidia_url, json=nvidia_payload, headers=nvidia_header)
+        print(res,"===================")
         base64 = res.json()["artifacts"][0]["base64"]
 
         # converting base64 into http url
@@ -27,4 +28,4 @@ def image_gen(prompt:str):
         return f"Error generating image,try again later {str(e)}"
 
 image_generation=RunnableLambda(image_gen)
-
+print(image_generation.invoke("Transformers architecture , "))
